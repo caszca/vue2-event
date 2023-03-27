@@ -172,9 +172,16 @@ export const deleteArt = (id) => {
 
     })
 }
-
+//获取每日新增文章数量
 export const getNewArticleNum = () => {
     return axios({
         url: "/article/new"
+    })
+}
+
+//获取分类文章各自数量
+export const getCateArticleNum = () => {
+    return axios({
+        url: "/article/cateNum"
     })
 }

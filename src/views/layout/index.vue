@@ -2,7 +2,7 @@
   <el-container class="container">
     <!-- 头部开始 -->
     <el-header>
-      <div class="pic">日记管理系统</div>
+      <div class="pic">日志文章管理系统</div>
       <i class="welcome"
         >欢迎 <i class="color">{{ nickname || username }}</i></i
       >
