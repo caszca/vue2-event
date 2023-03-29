@@ -91,7 +91,7 @@
           <router-view></router-view>
           <!-- 见鬼了，明明删除了<div>123</div> ,chrome上还是有，缓存的原因吗？感觉不像  -->
         </el-main>
-        <el-footer>Footer</el-footer>
+        <el-footer></el-footer>
       </el-container>
     </el-container>
   </el-container>
@@ -165,8 +165,9 @@ export default {
 .pic {
   display: flex;
   justify-content: center;
-  align-items: center;
+
   width: 146px;
+  padding: 8px 0 0 0;
 }
 .color {
   color: skyblue;

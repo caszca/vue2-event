@@ -185,3 +185,10 @@ export const getCateArticleNum = () => {
         url: "/article/cateNum"
     })
 }
+
+//获取每月文章量
+export const getMonthNum = () => {
+    return axios({
+        url: "/article/monthNum"
+    })
+}

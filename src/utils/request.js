@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from '@/router/index'
 import store from '@/store/index'
 
-export const baseURL = 'http://8.130.53.226:8001'
+export const baseURL = 'http://localhost:8001'
 axios.defaults.baseURL = baseURL
 
 

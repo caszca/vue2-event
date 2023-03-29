@@ -344,7 +344,7 @@ export default {
         ? await getAllArticle(this.page)
         : await getAllArticle(pages);
       this.isFilter = false;
-
+      console.log("-=-=,", data);
       if (data.code === 0) {
         this.allArticle = data.data;
         this.total = data.total;
