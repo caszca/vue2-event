@@ -89,11 +89,10 @@
         :src="baseURL + artContent.cover_img"
         style="width: 500px"
       />
-      <div v-html="artContent.content"></div>
+      <div v-html="artContent.content" class="content"></div>
+
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible1 = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="closeDialog">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -247,6 +246,10 @@ export default {
     };
   },
   methods: {
+    closeDialog() {
+      this.dialogVisible1 = false;
+      this.artContent.cover_img = null;
+    },
     showDialog() {
       this.dialogFormVisible = true;
     },

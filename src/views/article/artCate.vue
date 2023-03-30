@@ -76,16 +76,16 @@ export default {
         cate_name: [
           { required: true, message: "请输入分类名称", trigger: "blur" },
           {
-            pattern: /^\S{1,10}$/,
-            message: "分类名必须是1-10位的非空字符",
+            pattern: /^\S{1,15}$/,
+            message: "分类名必须是1-15位的非空字符",
             trigger: "blur",
           },
         ],
         cate_alias: [
           { required: true, message: "请输入分类别名", trigger: "blur" },
           {
-            pattern: /^[a-zA-Z0-9]{1,15}$/,
-            message: "分类别名必须是1-15位的字母数字",
+            pattern: /\w{1,15}/,
+            message: "分类别名必须是1-15位的任意字符",
             trigger: "blur",
           },
         ],

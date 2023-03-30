@@ -55,7 +55,6 @@
           background-color="#23262e"
           text-color="#fff"
           active-text-color="#ffd04b"
-          :unique-opened="true"
           router
         >
           <!-- router  以index里为跳转地址，同时也是默认高亮的选择项-->

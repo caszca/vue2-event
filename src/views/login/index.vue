@@ -2,7 +2,7 @@
   <div>
     <div class="reg-container">
       <div class="reg-form">
-        <div class="reg-title"></div>
+        <div class="reg-title">日志文章管理系统</div>
 
         <el-form ref="form" :model="form" :rules="rule">
           <el-form-item prop="username">
@@ -114,8 +114,12 @@ export default {
     padding: 0 30px;
 
     .reg-title {
+      display: flex;
+      font-size: 24px;
+      font-weight: 500;
+      justify-content: center;
+      align-items: center;
       height: 80px;
-      background: url("../../assets/images/login_title.png") center no-repeat;
     }
 
     .btn {

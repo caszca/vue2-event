@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     this.getArticleNum();
-
+    this.getNewArticleNum1();
     this.columnChartFn();
     this.circleChartFn();
     this.setCurveChartFn();
@@ -70,11 +70,13 @@ export default {
     async getArticleNum() {
       const result = await getAllArticleNum();
       const { data } = result.data;
+
       this.message = data;
     },
-    async getNewArticleNum() {
+    async getNewArticleNum1() {
       const result = await getNewArticleNum();
       const { data } = result.data;
+      console.log("data", data);
       this.newMessage = data;
     },
 
