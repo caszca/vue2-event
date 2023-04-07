@@ -2,11 +2,11 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>文章列表</span>
+        <span>日志列表</span>
       </div>
       <!-- 选择表单 -->
       <el-form :inline="true" class="demo-form-inline" ref="artForm">
-        <el-form-item label="文章分类">
+        <el-form-item label="日志分类">
           <el-select placeholder="请选择分类" v-model="page.cate_id">
             <el-option
               v-for="item in allArticleCate"
@@ -27,7 +27,7 @@
           <el-button type="info" @click="resetArticle">重置</el-button>
         </el-form-item>
         <el-button type="primary" style="float: right" @click="showDialog"
-          >发表文章</el-button
+          >发表日志</el-button
         >
       </el-form>
 
@@ -38,16 +38,18 @@
         :stripe="true"
         :border="true"
       >
-        <el-table-column label="文章标题" prop="title"> </el-table-column>
+        <el-table-column prop="title" label="日志标题"> </el-table-column>
         <el-table-column prop="cate_name" label="分类"> </el-table-column>
         <el-table-column prop="pub_date" label="发表时间">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ $formatDate(scope.row.pub_date) }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" prop="state"> </el-table-column>
+        <el-table-column label="日志状态" prop="state"> </el-table-column>
+        <el-table-column label="心情" prop="humor"> </el-table-column>
+        <el-table-column label="心情概率" prop="probaility"> </el-table-column>
         <el-table-column label="操作">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <el-button
               size="mini"
               type="primary"
@@ -73,7 +75,7 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="文章预览" :visible.sync="dialogVisible1" width="80%">
+    <el-dialog title="日志预览" :visible.sync="dialogVisible1" width="80%">
       <div class="title">{{ artContent.title }}</div>
       <div class="describe">
         <span>作者: {{ artContent.nickname || artContent.username }}</span>
@@ -89,6 +91,7 @@
         :src="baseURL + artContent.cover_img"
         style="width: 500px"
       />
+
       <div v-html="artContent.content" class="content"></div>
 
       <span slot="footer" class="dialog-footer">
@@ -96,18 +99,18 @@
       </span>
     </el-dialog>
 
-    <!-- 全局对话框，用于写文章 -->
+    <!-- 全局对话框，用于写日志 -->
     <el-dialog
       fullscreen
       center
-      title="发表文章"
+      title="发表日志"
       :visible.sync="dialogFormVisible"
       :before-close="handleClose"
       @close="dialogClose"
     >
       <el-form :model="tableData" :rules="rules" ref="form">
         <el-form-item
-          label="文章标题"
+          label="日志标题"
           :label-width="formLabelWidth"
           prop="title"
         >
@@ -119,7 +122,7 @@
         </el-form-item>
 
         <el-form-item
-          label="文章分类"
+          label="日志分类"
           :label-width="formLabelWidth"
           prop="cate_id"
         >
@@ -138,7 +141,7 @@
         </el-form-item>
 
         <!-- 富文本编辑器，因为都需要校验，放在一个表单里面 -->
-        <el-form-item label="文章内容" prop="content" style="display: flex">
+        <el-form-item label="日志内容" prop="content" style="display: flex">
           <quill-editor
             v-model="tableData.content"
             @blur="editorChange"
@@ -146,7 +149,7 @@
         </el-form-item>
 
         <!-- 选择封面 -->
-        <el-form-item label="文章封面" prop="cover_img" style="display: flex">
+        <el-form-item label="日志封面" prop="cover_img" style="display: flex">
           <img
             v-if="tableData.cover_img"
             :src="cover_img"
@@ -203,7 +206,7 @@ export default {
     return {
       baseURL,
       artContent: {},
-      dialogVisible1: false, //文章详情对话框
+      dialogVisible1: false, //日志详情对话框
       isFilter: false,
       page: {
         pagenum: 1, //当前页
@@ -211,8 +214,8 @@ export default {
         cate_id: "",
         state: "",
       },
-      total: null, //文章总数
-      allArticle: [], //单页全部文章,表格用到的对象数组
+      total: null, //日志总数
+      allArticle: [], //单页全部日志,表格用到的对象数组
       cover_img: "",
       dialogFormVisible: false,
       formLabelWidth: "80px",
@@ -223,24 +226,24 @@ export default {
         cover_img: null,
         state: "",
       },
-      allArticleCate: [], //select用到的文章分类数组
+      allArticleCate: [], //select用到的日志分类数组
 
       rules: {
         title: [
-          { required: true, message: "请输入文章标题", trigger: "blur" },
+          { required: true, message: "请输入日志标题", trigger: "blur" },
           { min: 1, max: 30, message: "请输入1~30个字符", trigger: "blur" },
         ],
         cate_id: [
-          { required: true, message: "请选择文章分类", trigger: "change" },
+          { required: true, message: "请选择日志分类", trigger: "change" },
         ],
         content: [
-          { required: true, message: "请选择文章分类", trigger: "blur" },
+          { required: true, message: "请写入日志内容", trigger: "blur" },
         ],
         cover_img: [
-          { required: true, message: "请选择文章分类", trigger: "change" },
+          { required: true, message: "请选择日志封面", trigger: "change" },
         ],
         state: [
-          { required: true, message: "请选择文章分类", trigger: "change" },
+          { required: true, message: "请选择日志状态", trigger: "change" },
         ],
       },
     };
@@ -254,7 +257,7 @@ export default {
       this.dialogFormVisible = true;
     },
     handleClose(done) {
-      this.$confirm("此操作将导致文章信息丢失, 是否继续?", "提示", {
+      this.$confirm("此操作将导致日志信息丢失, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -300,12 +303,12 @@ export default {
       this.$refs.form.validateField("content");
     },
 
-    //调用上传文章接口
+    //调用上传日志接口
     async loadArticleFn(fd) {
       const { data } = await loadArticle(fd);
       //console.log(res);
       if (data.code === 0) {
-        this.getAllArticleFn(); //获取文章数据应该等上传成功后再请求才行
+        this.getAllArticleFn(); //获取日志数据应该等上传成功后再请求才行
         this.$message.success(data.message);
       } else this.$message.error(data.message);
     },
@@ -324,7 +327,7 @@ export default {
           fd.append("state", this.tableData.state);
 
           this.loadArticleFn(fd);
-          /* this.getAllArticleFn();将获取文章方法调用放在这里，会有bug，得到的数据未改变 */
+          /* this.getAllArticleFn();将获取日志方法调用放在这里，会有bug，得到的数据未改变 */
           this.dialogFormVisible = false;
         } else {
           return false;
@@ -347,9 +350,24 @@ export default {
         ? await getAllArticle(this.page)
         : await getAllArticle(pages);
       this.isFilter = false;
-      console.log("-=-=,", data);
       if (data.code === 0) {
-        this.allArticle = data.data;
+        let humor = "";
+        const article = data.data;
+
+        for (let item of article) {
+          if (item.positive_prob > 0.9) {
+            item.humor = "不错";
+            item.probaility = item.positive_prob;
+          } else if (item.negative_prob > 0.9) {
+            item.humor = "较差";
+            item.probaility = item.negative_prob;
+          } else {
+            item.humor = "一般";
+            item.probaility = 1 - item.neutral_prob;
+          }
+        }
+
+        this.allArticle = article;
         this.total = data.total;
       } else this.$message.error(data.message);
 
@@ -367,7 +385,7 @@ export default {
       this.getAllArticleFn();
     },
 
-    //筛选功能，筛选文章
+    //筛选功能，筛选日志
     filterArticle() {
       this.isFilter = true;
       this.page.pagenum = 1;
@@ -381,7 +399,7 @@ export default {
       if (data.code !== 0) this.$message.error(data.message);
     },
 
-    //显示文章详情
+    //显示日志详情
     dialogArticle(article) {
       this.getOneArticleFn(article);
 
@@ -394,9 +412,9 @@ export default {
       this.getAllArticleFn();
     },
 
-    //删除文章
+    //删除日志
     deleteArtFn(article) {
-      this.$confirm("确定删除该文章吗?", "提示", {
+      this.$confirm("确定删除该日志吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -404,6 +422,7 @@ export default {
         .then(async () => {
           const { data } = await deleteArt(article.id);
           if (data.code === 0) {
+            this.$message.success(data.message);
             if (this.allArticle.length === 1)
               if (this.page.pagenum !== 1) this.page.pagenum--;
             this.getAllArticleFn();

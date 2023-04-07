@@ -6,26 +6,21 @@
           <strong>{{ message }}</strong>
           <span>篇</span>
         </div>
-        <p>总文章数</p>
+        <p>总日志数</p>
       </div>
       <div>
         <div class="content">
           <strong>{{ newMessage }}</strong>
           <span>篇</span>
         </div>
-        <p>日增新文章数</p>
+        <p>每日增新日志数</p>
       </div>
       <div>
         <div class="content">
-          <strong>0</strong>
+          <strong>{{ cate_num }}</strong>
+          <span>篇</span>
         </div>
-        <p>待定功能</p>
-      </div>
-      <div>
-        <div class="content">
-          <strong>0</strong>
-        </div>
-        <p>待定功能</p>
+        <p>日志分类数量</p>
       </div>
     </div>
 
@@ -33,8 +28,9 @@
       <div id="chart1"></div>
     </div>
 
-    <div class="footer">
+    <div class="center">
       <div id="chart2"></div>
+      <div id="chart4"></div>
     </div>
     <div class="footer">
       <div id="chart3"></div>
@@ -49,6 +45,7 @@ import {
   getNewArticleNum,
   getCateArticleNum,
   getMonthNum,
+  getHumorNum,
 } from "@/api";
 
 export default {
@@ -57,6 +54,7 @@ export default {
     return {
       message: 0,
       newMessage: 0,
+      cate_num: 0,
     };
   },
   mounted() {
@@ -64,6 +62,7 @@ export default {
     this.getNewArticleNum1();
     this.columnChartFn();
     this.circleChartFn();
+    this.circleHumortFn();
     this.setCurveChartFn();
   },
   methods: {
@@ -76,7 +75,7 @@ export default {
     async getNewArticleNum1() {
       const result = await getNewArticleNum();
       const { data } = result.data;
-      console.log("data", data);
+
       this.newMessage = data;
     },
 
@@ -98,11 +97,10 @@ export default {
           cate_name.push(item.cate_name);
           num.push(item.count);
         }
-        console.log("cate_name", cate_name);
-        console.log("num", num);
+        this.cate_num = cate_name.length;
         const option = {
           title: {
-            text: "分类文章数量：",
+            text: "分类日志数量：",
             left: "center",
           },
           xAxis: {
@@ -112,6 +110,9 @@ export default {
           legend: {
             data: ["数量"],
             top: "25",
+          },
+          tooltip: {
+            trigger: "axis",
           },
           toolbox: {
             // 工具栏
@@ -141,9 +142,9 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
     },
 
-    circleChartFn(cateArticle) {
+    circleChartFn() {
       const myChart = echarts.init(document.querySelector("#chart2"), null, {
-        width: 1000,
+        width: 760,
         height: 450,
       });
       myChart.showLoading();
@@ -157,12 +158,11 @@ export default {
           cate_name.push(item.cate_name);
           data1.push({ value: item.count, name: item.cate_name });
         }
-        console.log("data1", data1);
-        console.log("cate_name", cate_name);
+
         const option = {
           title: {
             top: 10,
-            text: "分类文章数量比",
+            text: "分类日志数量比",
             x: "center",
           },
           tooltip: {
@@ -217,7 +217,82 @@ export default {
       });
     },
 
-    setCurveChartFn(monthNum) {
+    circleHumortFn() {
+      const myChart = echarts.init(document.querySelector("#chart4"), null, {
+        width: 520,
+        height: 450,
+      });
+      myChart.showLoading();
+      getHumorNum().then((result) => {
+        myChart.hideLoading();
+        const { data } = result.data;
+
+        const cate_name = ["不错", "较差", "一般"];
+        const data1 = [
+          { name: "不错", value: data.positiveNum },
+          { name: "较差", value: data.negativeNum },
+          { name: "一般", value: data.commonNum },
+        ];
+
+        const option = {
+          title: {
+            top: 10,
+            text: "不同心情日志数量比",
+            x: "center",
+          },
+          tooltip: {
+            trigger: "item", // 在图形上才会触发提示
+            formatter: "{a} <br/>{b} : {c} ({d}%)", // 提示的文字显示的格式
+            // a: 系列名
+            // b: 数据名
+            // c: 数值
+            // d: 百分比 (只有饼状图生效)
+          },
+
+          legend: {
+            // 图例组件
+            x: "center",
+            top: 65,
+            data: cate_name, // 每个部分对应的数据名(要和series里name对应)
+          },
+          toolbox: {
+            // 工具箱
+            show: true,
+            top: 35,
+            feature: {
+              mark: { show: true },
+              dataView: { show: true, readOnly: false },
+              magicType: {
+                show: true,
+                type: ["pie", "funnel"],
+                option: {
+                  funnel: {
+                    x: "25%",
+                    width: "50%",
+                    funnelAlign: "left",
+                    max: 1548,
+                  },
+                },
+              },
+              restore: { show: true },
+              saveAsImage: { show: true },
+            },
+          },
+          series: [
+            {
+              name: "访问来源",
+              type: "pie",
+              radius: ["40%", "60%"],
+              center: ["50%", "65%"],
+              data: data1,
+            },
+          ],
+        };
+        myChart.setOption(option);
+      });
+    },
+
+    setCurveChartFn() {
       // 基于准备好的dom，初始化echarts实例
       const curveChart = echarts.init(document.getElementById("chart3"), null, {
         width: 1000,
@@ -239,7 +314,7 @@ export default {
         }
         const option = {
           title: {
-            text: "每月文章数", // 标题
+            text: "每月日志数", // 标题
             left: "center", // 位置居中
             top: "10", // 标题距离容器顶部px
           },
@@ -249,7 +324,7 @@ export default {
           },
           legend: {
             // 图例组件(每种颜色的意思)
-            data: ["每月文章"], // 图例文字解释(要和series里name对应)
+            data: ["每月日志"], // 图例文字解释(要和series里name对应)
             top: "40", // 距离容器顶部px
           },
           toolbox: {
@@ -276,18 +351,18 @@ export default {
           yAxis: [
             // 垂直轴显示
             {
-              name: "每月文章数",
+              name: "每月日志数",
               type: "value", // 以series里的data值做划分段
             },
           ],
           series: [
             // 系列(控制图表类型和数据)
             {
-              name: "每月文章",
+              name: "每月日志",
               type: "line", // 折线图
               smooth: true, // 是否平滑视觉引导线，默认不平滑，可以设置成 true 平滑显示
               areaStyle: { type: "default" }, // 区域填充样式。设置后显示成区域面积图。
-              itemStyle: { color: "#f80", lineStyle: { color: "#f80" } }, // 折线拐点标志的样式。
+              itemStyle: { color: "#5c7bd9", lineStyle: { color: "#5c7bd9" } }, // 折线拐点标志的样式。
               data: aCount, // 真正数据源(用下标和x轴数组对应)
             },
           ],
@@ -378,7 +453,15 @@ export default {
 #chart1 {
   margin-top: 50px;
 }
-
+.center {
+  display: flex;
+  margin-top: 60px;
+  justify-content: space-between;
+}
+#chart2,
+#chart4 {
+  background-color: #ffffff;
+}
 .footer {
   display: flex;
   justify-content: center;

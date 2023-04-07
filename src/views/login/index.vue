@@ -2,7 +2,7 @@
   <div>
     <div class="reg-container">
       <div class="reg-form">
-        <div class="reg-title">日志文章管理系统</div>
+        <div class="reg-title">日志云</div>
 
         <el-form ref="form" :model="form" :rules="rule">
           <el-form-item prop="username">

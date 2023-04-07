@@ -2,7 +2,7 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix box">
-        <span>文章分类</span>
+        <span>日志分类</span>
         <el-button type="primary" size="mini" @click="showDialog"
           >添加分类</el-button
         >
@@ -27,7 +27,7 @@
 
     <!-- @close表示对话框关闭事件 -->
     <el-dialog
-      :title="isEdit ? '编辑文章分类' : '添加文章分类'"
+      :title="isEdit ? '编辑日志分类' : '添加日志分类'"
       :visible.sync="dialogFormVisible"
       @close="dialogClose"
     >
@@ -66,7 +66,7 @@ export default {
     return {
       //对话框数据
       tableData: { cate_name: "", cate_alias: "" },
-      //接收后台返回文章分类
+      //接收后台返回日志分类
       form: [],
       dialogFormVisible: false,
       formLabelWidth: "80px",
@@ -98,7 +98,7 @@ export default {
   },
 
   methods: {
-    //获取文章分类情况
+    //获取日志分类情况
     async getCate() {
       //提前获得数据，以便挂载前编译
       const { data } = await getArtCate();
@@ -117,7 +117,7 @@ export default {
       this.dialogFormVisible = false;
     },
 
-    //添加文章分类功能
+    //添加日志分类功能
     addCateFn() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
@@ -140,7 +140,7 @@ export default {
       this.$refs.form.resetFields();
     },
 
-    //获取单个文章分类详情
+    //获取单个日志分类详情
     async getOneCateFn(id) {
       const { data } = await getOneCate(id);
 
@@ -172,7 +172,7 @@ export default {
         });
     },
 
-    //删除单个文章分类详情
+    //删除单个日志分类详情
     async deleteCateFn(id) {
       const { data } = await deleteCate(id);
       data.code === 0

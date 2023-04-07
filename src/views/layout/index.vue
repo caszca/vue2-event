@@ -2,7 +2,7 @@
   <el-container class="container">
     <!-- 头部开始 -->
     <el-header>
-      <div class="pic">日志文章管理系统</div>
+      <div class="pic">日志云</div>
       <i class="welcome"
         >欢迎 <i class="color">{{ nickname || username }}</i></i
       >
@@ -10,7 +10,7 @@
       <el-menu
         class="el-menu-demo"
         mode="horizontal"
-        background-color="#23262E"
+        background-color="#202c3e"
         text-color="#fff"
         active-text-color="#ffd04b"
         router
@@ -52,7 +52,7 @@
           class="el-menu-vertical-demo tab"
           @open="handleOpen"
           @close="handleClose"
-          background-color="#23262e"
+          background-color="#303e54"
           text-color="#fff"
           active-text-color="#ffd04b"
           router
@@ -180,17 +180,17 @@ export default {
 .el-header {
   display: flex; /* 此处的flex布局精髓 */
   justify-content: space-between;
-  background: #23262e;
+  background: #202c3e;
   color: #fff;
   line-height: 60px;
 }
 .el-footer {
-  background-color: #23262e;
+  background-color: #202c3e;
   color: #fff;
 }
 
 .el-aside {
-  background-color: #23262e;
+  background-color: #303e54;
   color: #fff;
   text-align: center;
   line-height: 200px;
