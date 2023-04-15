@@ -66,16 +66,16 @@ export default {
         old_pwd: [
           { required: true, message: "请输入旧密码", trigger: "blur" },
           {
-            pattern: /^\S{6,15}$/,
-            message: "6-15位的非空字符",
+            pattern: /^\S{5,20}$/,
+            message: "5-20位的非空字符",
             trigger: "blur",
           },
         ],
         new_pwd: [
           { required: true, message: "请输入新密码", trigger: "blur" },
           {
-            pattern: /^\S{6,15}$/,
-            message: "6-15位的非空字符",
+            pattern: /^\S{5,20}$/,
+            message: "5-20位的非空字符",
             trigger: "blur",
           },
           { validator: notSamePwd, trigger: "blur" },

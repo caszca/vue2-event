@@ -22,6 +22,7 @@
           alt=""
           class="touxiang"
         />
+        <el-menu-item index="/art-list">日志列表</el-menu-item>
 
         <el-submenu>
           <template slot="title">个人中心</template>

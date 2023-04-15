@@ -1,6 +1,6 @@
 // 请求接口集合
 import axios from '@/utils/request'
-import store from '@/store/index'
+
 
 export const register = (message) => {         //注册提交
     return axios({ // 返回一个promise实例对象
@@ -32,12 +32,38 @@ export const getUserInfo = () => {     //不能加后缀API,否则检测不是�
 }
 
 
+//获取每日新增日志数量
+export const getNewArticleNum = () => {
+    return axios({
+        url: "/article/new"
+    })
+}
+
+//获取分类日志各自数量
+export const getCateArticleNum = () => {
+    return axios({
+        url: "/article/cateNum"
+    })
+}
+
+//获取每月日志量
+export const getMonthNum = () => {
+    return axios({
+        url: "/article/monthNum"
+    })
+}
+
+//获取不同心情日志
+export const getHumorNum = () => {
+    return axios({
+        url: "/article/humor"
+    })
+}
+
 export const getMenus = () => {
     return axios({
         url: '/tablist',
-        /*  headers: {
-             Authorization: store.state.token       //重复
-         } */
+
     })
 }
 
@@ -125,9 +151,7 @@ export const deleteCate = (id) => {
     })
 }
 
-/* const instance = axios.create({
-    baseURL: "http://localhost:8001"
-}) */
+
 //发布日志,参数要的是表单对象, 不能写普通对象, axios内部会判断, 如果是表单对象, 传递的请求体会设置Content-Type: form-data与后端对应
 export const loadArticle = (article) => { /* 这里又写错了，写成acticle */
 
@@ -170,32 +194,5 @@ export const deleteArt = (id) => {
         url: `/article/info?id=${id}`,
         method: 'DELETE',
 
-    })
-}
-//获取每日新增日志数量
-export const getNewArticleNum = () => {
-    return axios({
-        url: "/article/new"
-    })
-}
-
-//获取分类日志各自数量
-export const getCateArticleNum = () => {
-    return axios({
-        url: "/article/cateNum"
-    })
-}
-
-//获取每月日志量
-export const getMonthNum = () => {
-    return axios({
-        url: "/article/monthNum"
-    })
-}
-
-//获取不同心情日志
-export const getHumorNum = () => {
-    return axios({
-        url: "/article/humor"
     })
 }

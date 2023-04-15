@@ -101,7 +101,7 @@
 
     <!-- 全局对话框，用于写日志 -->
     <el-dialog
-      fullscreen
+      width="84%"
       center
       title="发表日志"
       :visible.sync="dialogFormVisible"

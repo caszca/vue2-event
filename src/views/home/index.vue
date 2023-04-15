@@ -18,9 +18,9 @@
       <div>
         <div class="content">
           <strong>{{ cate_num }}</strong>
-          <span>篇</span>
+          <span>种</span>
         </div>
-        <p>日志分类数量</p>
+        <p>日志分类种数</p>
       </div>
     </div>
 
@@ -116,14 +116,14 @@ export default {
           },
           toolbox: {
             // 工具栏
-            show: true, // 要显示
+            show: true,
             feature: {
               // 各工具配置项
               mark: { show: true }, // 辅助线开关
-              dataView: { show: true, readOnly: false }, // 数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新。
-              magicType: { show: true, type: ["line", "bar"] }, // 动态类型切换
-              restore: { show: true }, // 配置项还原
-              saveAsImage: { show: true }, // 点击保存下载图片
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ["line", "bar"] },
+              restore: { show: true },
+              saveAsImage: { show: true },
             },
           },
           series: [
@@ -136,10 +136,6 @@ export default {
         };
         myChart.setOption(option);
       });
-
-      // 指定图表的配置项和数据
-
-      // 使用刚指定的配置项和数据显示图表。
     },
 
     circleChartFn() {
@@ -299,8 +295,7 @@ export default {
         height: 500,
       });
       curveChart.showLoading();
-      // 绘制面积图表
-      // 数据源(模拟后台返回的数据)
+
       getMonthNum().then((result) => {
         curveChart.hideLoading();
         const { data } = result.data;
@@ -314,9 +309,9 @@ export default {
         }
         const option = {
           title: {
-            text: "每月日志数", // 标题
-            left: "center", // 位置居中
-            top: "10", // 标题距离容器顶部px
+            text: "每月日志数",
+            left: "center",
+            top: "10",
           },
           tooltip: {
             // 提示框组件
@@ -325,18 +320,17 @@ export default {
           legend: {
             // 图例组件(每种颜色的意思)
             data: ["每月日志"], // 图例文字解释(要和series里name对应)
-            top: "40", // 距离容器顶部px
+            top: "40",
           },
           toolbox: {
             // 工具栏
-            show: true, // 要显示
+            show: true,
             feature: {
-              // 各工具配置项
-              mark: { show: true }, // 辅助线开关
-              dataView: { show: true, readOnly: false }, // 数据视图工具，可以展现当前图表所用的数据，编辑后可以动态更新。
-              magicType: { show: true, type: ["line", "bar"] }, // 动态类型切换
-              restore: { show: true }, // 配置项还原
-              saveAsImage: { show: true }, // 点击保存下载图片
+              mark: { show: true },
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ["line", "bar"] },
+              restore: { show: true },
+              saveAsImage: { show: true },
             },
           },
           xAxis: [
@@ -359,29 +353,24 @@ export default {
             // 系列(控制图表类型和数据)
             {
               name: "每月日志",
-              type: "line", // 折线图
-              smooth: true, // 是否平滑视觉引导线，默认不平滑，可以设置成 true 平滑显示
-              areaStyle: { type: "default" }, // 区域填充样式。设置后显示成区域面积图。
-              itemStyle: { color: "#5c7bd9", lineStyle: { color: "#5c7bd9" } }, // 折线拐点标志的样式。
-              data: aCount, // 真正数据源(用下标和x轴数组对应)
+              type: "line",
+              smooth: true, // 区域填充样式。设置后显示成区域面积图。
+              areaStyle: { type: "default" },
+              itemStyle: { color: "#5c7bd9", lineStyle: { color: "#5c7bd9" } },
+              data: aCount,
             },
           ],
           grid: {
-            // 直角坐标系内绘图网格
             show: true,
-            x: 50, // grid 组件离容器偏移量, 左侧
-            x2: 50, // 右侧
-            y: 80, // 上
-            height: 350, // 高度
+            x: 50,
+            x2: 50,
+            y: 80,
+            height: 350,
           },
         };
 
         curveChart.setOption(option);
       });
-
-      // 但是图标要求直接给数字的值, 所以要把对象的值取出来形成2个只有值的数组
-
-      // 面积图的echarts配置项(参考文档复制)
     },
   },
 };
