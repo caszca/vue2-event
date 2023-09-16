@@ -16,6 +16,7 @@
     <el-button type="primary" icon="el-icon-search" @click="chooseImg"
       >选择图片</el-button
     >
+
     <el-button
       type="primary"
       icon="el-icon-upload "
@@ -51,6 +52,8 @@ export default {
         fr.onload = (e) => {
           // 4. 通过 e.target.result 获取到读取的结果，值是字符串（base64 格式的字符串）
           this.avatar = e.target.result;
+          console.log(this.avatar);
+          console.log(this.avatar.length);
         };
       }
     },

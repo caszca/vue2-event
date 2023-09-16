@@ -9,6 +9,7 @@ import '@/dayjs'     //引入格式化时间
 
 Vue.config.productionTip = false
 
+
 new Vue({
   router,
   store,

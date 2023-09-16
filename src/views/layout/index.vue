@@ -89,7 +89,6 @@
       <el-container>
         <el-main>
           <router-view></router-view>
-          <!-- 见鬼了，明明删除了<div>123</div> ,chrome上还是有，缓存的原因吗？感觉不像  -->
         </el-main>
         <el-footer></el-footer>
       </el-container>
@@ -116,6 +115,7 @@ export default {
   computed: {
     ...mapGetters(["nickname", "user_pic", "username"]),
   },
+
   async created() {
     const result = await getMenus();
     this.Menus = result.data.data;
@@ -143,6 +143,8 @@ export default {
       });
     },
 
+
+    
     /* beforeRouteEnter(to, from, next) {     
       //组件内路由守卫，获取用户信息,无效，不知道原因
       

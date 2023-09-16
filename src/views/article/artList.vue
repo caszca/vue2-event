@@ -46,8 +46,7 @@
           </template>
         </el-table-column>
         <el-table-column label="日志状态" prop="state"> </el-table-column>
-        <el-table-column label="心情" prop="humor"> </el-table-column>
-        <el-table-column label="心情概率" prop="probaility"> </el-table-column>
+        
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button
@@ -88,7 +87,7 @@
 
       <img
         v-if="artContent.cover_img"
-        :src="baseURL + artContent.cover_img"
+        :src="BASE_URL + artContent.cover_img"
         style="width: 500px"
       />
 
@@ -134,6 +133,26 @@
             <el-option
               v-for="item in allArticleCate"
               :label="item.cate_name"
+              :value="item.id"
+              :key="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item
+          label="语言分类"
+          :label-width="formLabelWidth"
+          prop="lang_cate_id"
+        >
+          <el-select
+            placeholder="请选择分类"
+            style="width: 100%"
+            multiple
+            v-model="tableData.lang_cate_id"
+          >
+            <el-option
+              v-for="item in allLangCate"
+              :label="item.lang_name"
               :value="item.id"
               :key="item.id"
             ></el-option>
@@ -194,17 +213,18 @@
 <script>
 import {
   getArtCate,
+  getLangCate,
   loadArticle,
   getAllArticle,
   getOneArticle,
   deleteArt,
 } from "@/api";
-import { baseURL } from "@/utils/request";
+import { BASE_URL } from "@/utils/request/config.js";
 export default {
   name: "MyArtList",
   data() {
     return {
-      baseURL,
+      BASE_URL,
       artContent: {},
       dialogVisible1: false, //日志详情对话框
       isFilter: false,
@@ -216,25 +236,39 @@ export default {
       },
       total: null, //日志总数
       allArticle: [], //单页全部日志,表格用到的对象数组
+
       cover_img: "",
       dialogFormVisible: false,
       formLabelWidth: "80px",
       tableData: {
         title: "",
-        cate_id: "",
+        cate_id: null,
+        lang_cate_id: [],
         content: "",
         cover_img: null,
         state: "",
       },
       allArticleCate: [], //select用到的日志分类数组
-
+      allLangCate: [],
       rules: {
         title: [
           { required: true, message: "请输入日志标题", trigger: "blur" },
           { min: 1, max: 30, message: "请输入1~30个字符", trigger: "blur" },
         ],
         cate_id: [
-          { required: true, message: "请选择日志分类", trigger: "change" },
+          {
+            required: true,
+            message: "请选择日志分类",
+            trigger: "change",
+          },
+        ],
+        lang_cate_id: [
+          {
+            type: "array",
+            required: true,
+            message: "请选择日志分类",
+            trigger: "change",
+          },
         ],
         content: [
           { required: true, message: "请写入日志内容", trigger: "blur" },
@@ -251,7 +285,7 @@ export default {
   methods: {
     closeDialog() {
       this.dialogVisible1 = false;
-      this.artContent.cover_img = null;
+      // this.artContent.cover_img = null;
     },
     showDialog() {
       this.dialogFormVisible = true;
@@ -275,6 +309,14 @@ export default {
         ? (this.allArticleCate = data.data)
         : this.$message.error(data.message);
     },
+
+    async getAllLangCate() {
+      const { data } = await getLangCate();
+      data.code === 0
+        ? (this.allLangCate = data.data)
+        : this.$message.error(data.message);
+    },
+
     chooseImg() {
       this.$refs.Img.click();
     },
@@ -284,7 +326,7 @@ export default {
       if (files.length === 0) return;
       else {
         this.tableData.cover_img = files[0];
-
+        //console.log("tableData", this.tableData.cover_img);
         // 1. 创建 FileReader 对象
         const fr = new FileReader();
         // 2. 调用 readAsDataURL 函数，读取文件内容
@@ -293,6 +335,7 @@ export default {
         fr.onload = (e) => {
           // 4. 通过 e.target.result 获取到读取的结果，值是字符串（base64 格式的字符串）
           this.cover_img = e.target.result;
+
           /* console.log(this.cover_img); */
         };
       }
@@ -321,11 +364,12 @@ export default {
           const fd = new FormData(); //表单数据对象的容器，html5新出专门为了装文件内容
 
           fd.append("cate_id", this.tableData.cate_id);
+          fd.append("lang_cate_id", this.tableData.lang_cate_id);
           fd.append("title", this.tableData.title);
           fd.append("content", this.tableData.content);
           fd.append("cover_img", this.tableData.cover_img);
           fd.append("state", this.tableData.state);
-
+ 
           this.loadArticleFn(fd);
           /* this.getAllArticleFn();将获取日志方法调用放在这里，会有bug，得到的数据未改变 */
           this.dialogFormVisible = false;
@@ -433,9 +477,10 @@ export default {
   },
 
   //铺设数据
-  created() {
+  mounted() {
     this.getAllArtCate();
     this.getAllArticleFn();
+    this.getAllLangCate();
   },
 };
 </script>

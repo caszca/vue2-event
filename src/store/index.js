@@ -14,6 +14,7 @@ export default new Vuex.Store({
       return state.userInfo.nickname
     },
     user_pic(state) {
+      console.log("pic", state)
       return state.userInfo.user_pic
     },
     username(state) {
@@ -33,6 +34,8 @@ export default new Vuex.Store({
     },
 
   },
+
+
   actions: {
 
     async getUser(store) {
